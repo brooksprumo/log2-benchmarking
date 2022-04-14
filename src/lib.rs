@@ -1,3 +1,6 @@
+mod non_zero_u63;
+
+use non_zero_u63::NonZeroU63;
 use std::num::NonZeroU64;
 
 pub fn log2_ceil_baseline(x: u64) -> u32 {
@@ -22,39 +25,6 @@ pub fn log2_ceil_v2(x: NonZeroU64) -> u32 {
 
 pub fn log2_ceil_v3(x: NonZeroU63) -> u32 {
     NonZeroU63::BITS - (2 * x.get() - 1).leading_zeros()
-}
-
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[repr(transparent)]
-pub struct NonZeroU63(u64);
-
-impl NonZeroU63 {
-    const BITS: u32 = u64::BITS - 1;
-    const MIN: u64 = 1;
-    const MAX: u64 = (1 << Self::BITS) - 1;
-
-    #[must_use]
-    #[inline]
-    pub const unsafe fn new_unchecked(n: u64) -> Self {
-        // SAFETY: this is guaranteed to be safe by the caller.
-        unsafe { Self(n) }
-    }
-
-    #[must_use]
-    #[inline]
-    pub const fn new(n: u64) -> Option<Self> {
-        if n >= Self::MIN && n <= Self::MAX {
-            // SAFETY: we just checked that the value is in range
-            Some(unsafe { Self(n) })
-        } else {
-            None
-        }
-    }
-
-    #[inline]
-    pub const fn get(self) -> u64 {
-        self.0
-    }
 }
 
 #[cfg(test)]
