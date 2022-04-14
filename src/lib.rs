@@ -34,26 +34,25 @@ mod tests {
 
     #[test]
     fn test_log2_ceil_v1_limits() {
-        let min = u64::MIN;
-        assert_eq!(log2_ceil_baseline(min), log2_ceil_v1(min));
-        let max = u64::MAX;
-        assert_eq!(log2_ceil_baseline(max), log2_ceil_v1(max));
+        for x in [0, 1, 2, 3, 4, 5, u64::MAX - 1, u64::MAX] {
+            assert_eq!(log2_ceil_baseline(x), log2_ceil_v1(x));
+        }
     }
 
     #[test]
     fn test_log2_ceil_v2_limits() {
-        let min = NonZeroU64::new(1).unwrap();
-        assert_eq!(log2_ceil_baseline(min.get()), log2_ceil_v2(min));
-        let max = NonZeroU64::new(u64::MAX).unwrap();
-        assert_eq!(log2_ceil_baseline(max.get()), log2_ceil_v2(max));
+        for x in [1, 2, 3, 4, 5, u64::MAX - 1, u64::MAX] {
+            let x = NonZeroU64::new(x).unwrap();
+            assert_eq!(log2_ceil_baseline(x.get()), log2_ceil_v2(x));
+        }
     }
 
     #[test]
     fn test_log2_ceil_v3_limits() {
-        let min = NonZeroU63::new(NonZeroU63::MIN).unwrap();
-        assert_eq!(log2_ceil_baseline(min.get()), log2_ceil_v3(min));
-        let max = NonZeroU63::new(NonZeroU63::MAX).unwrap();
-        assert_eq!(log2_ceil_baseline(max.get()), log2_ceil_v3(max));
+        for x in [1, 2, 3, 4, 5, NonZeroU63::MAX - 1, NonZeroU63::MAX] {
+            let x = NonZeroU63::new(x).unwrap();
+            assert_eq!(log2_ceil_baseline(x.get()), log2_ceil_v3(x));
+        }
     }
 
     proptest! {
