@@ -1,5 +1,6 @@
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
 use log2_benchmarking::*;
+use non_zero_u63::NonZeroU63;
 use std::num::NonZeroU64;
 
 fn bench_log2_ceil(c: &mut Criterion) {

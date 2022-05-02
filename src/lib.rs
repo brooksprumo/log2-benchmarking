@@ -1,4 +1,4 @@
-mod non_zero_u63;
+pub mod non_zero_u63;
 
 use non_zero_u63::NonZeroU63;
 use std::num::NonZeroU64;
