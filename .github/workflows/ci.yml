@@ -76,6 +76,8 @@ jobs:
           rustup toolchain install nightly --component miri
           rustup override set nightly
           cargo miri setup
-      - name: Test with Miri
-        env: MIRIFLAGS=-Ziri-disable-isolation
-        run: cargo miri test
+      - uses: actions-rs/cargo@v1
+        with:
+          env: MIRIFLAGS=-Ziri-disable-isolation
+          command: miri
+          args: test
